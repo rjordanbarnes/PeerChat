@@ -1,9 +1,9 @@
 package Discovery;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +13,11 @@ public class RendezvousServer {
     // Port the server listens on.
     private int port;
 
-    // Maps PeerName -> IP
-    private Map<String, InetAddress> peerMap;
+    // Maps PeerName -> IP/Port
+    private Map<String, SocketAddress> peerMap;
 
-    // Maps IP -> PeerName
-    private Map<InetAddress, String> connectionMap;
+    // Maps IP/Port -> PeerName
+    private Map<SocketAddress, String> connectionMap;
 
     public RendezvousServer() {
         this(DEFAULT_PORT);
@@ -53,7 +53,7 @@ public class RendezvousServer {
      * @param peerName The name of the peer to add.
      * @param peerAddress The address of the peer to add.
      */
-    public synchronized void addPeer(String peerName, InetAddress peerAddress) {
+    public synchronized void addPeer(String peerName, SocketAddress peerAddress) {
         if (this.peerMap.containsKey(peerName)) {
             // Peer name is already taken.
             throw new IllegalArgumentException("Peer name " + peerName + " already in-use.");
@@ -75,7 +75,7 @@ public class RendezvousServer {
      *
      * @param peerAddress The address of the peer to remove.
      */
-    public synchronized void removePeer(InetAddress peerAddress) {
+    public synchronized void removePeer(SocketAddress peerAddress) {
         String peerName = this.connectionMap.get(peerAddress);
         this.connectionMap.remove(peerAddress);
         this.peerMap.remove(peerName);
@@ -87,7 +87,7 @@ public class RendezvousServer {
      * @param peerAddress The peer's address to lookup.
      * @return The peer's associated name.
      */
-    public synchronized String getPeerName(InetAddress peerAddress) {
+    public synchronized String getPeerNameFromAddress(SocketAddress peerAddress) {
         return this.connectionMap.get(peerAddress);
     }
 
@@ -96,7 +96,7 @@ public class RendezvousServer {
      *
      * @return The current peer map.
      */
-    public synchronized Map<String, InetAddress> getPeerMap() {
+    public synchronized Map<String, SocketAddress> getPeerMap() {
         return peerMap;
     }
 }

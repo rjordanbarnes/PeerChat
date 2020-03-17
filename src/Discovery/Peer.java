@@ -1,5 +1,7 @@
 package Discovery;
 
+import Discovery.RendezvousMessages.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,10 +18,14 @@ public class Peer {
     // The name the peer is using on the current Rendezvous Server. null if not connected
     private String peerName;
 
-    // The cached version of the peerMap from the Rendezvous Server
-    private Map<String, InetAddress> peerMap;
+    // The port the peer is listening on for other peer connections.
+    private int peerPort;
 
-    public Peer() {
+    // The cached version of the peerMap from the Rendezvous Server
+    private Map<String, SocketAddress> peerMap;
+
+    public Peer(int peerPort) {
+        this.peerPort = peerPort;
     }
 
     /**
@@ -36,15 +42,15 @@ public class Peer {
      * Makes the Peer join the given Rendezvous Server for Peer discovery.
      *
      * @param rendezvousAddress The Rendezvous Server's address.
-     * @param port The port to connect to.
+     * @param rendezvousPort The port to connect to on the Rendezvous Server
      * @param peerName The name to use on the Rendezvous Server.
      */
-    public void joinRendezvous(InetAddress rendezvousAddress, int port, String peerName) throws IOException {
+    public void joinRendezvous(InetAddress rendezvousAddress, int rendezvousPort, String peerName) throws IOException {
         this.leaveCurrentRendezvous();
-        SocketAddress newRendezvousServer = new InetSocketAddress(rendezvousAddress, port);
-        RendezvousMessage response = sendMessageToServer(newRendezvousServer, new RendezvousMessage("joinRequest", peerName));
+        SocketAddress newRendezvousServer = new InetSocketAddress(rendezvousAddress, rendezvousPort);
+        JoinResponse response = (JoinResponse) sendMessageToServer(newRendezvousServer, new JoinRequest(peerName, this.peerPort));
 
-        if (!response.parameter.equals("Success")) {
+        if (!response.isSuccessful) {
             throw new IOException("Rendezvous Join unsuccessful.");
         }
 
@@ -63,9 +69,9 @@ public class Peer {
             return;
         }
 
-        RendezvousMessage response = sendMessageToServer(this.currentRendezvous, new RendezvousMessage("leaveRequest", null));
+        LeaveResponse response = (LeaveResponse) sendMessageToServer(this.currentRendezvous, new LeaveRequest(this.peerPort));
 
-        if (!response.parameter.equals("Success")) {
+        if (!response.isSuccessful) {
             throw new IOException("Rendezvous Leave unsuccessful.");
         }
 
@@ -79,14 +85,14 @@ public class Peer {
      *
      * @return The current map of peers.
      */
-    public Map<String, InetAddress> refreshAndGetPeerMap() throws IOException {
+    public Map<String, SocketAddress> refreshAndGetPeerMap() throws IOException {
         if (this.currentRendezvous == null) {
             // Not connected to a server
             throw new IllegalStateException("Must join a Rendezvous Server first.");
         }
 
-        RendezvousMessage response = sendMessageToServer(this.currentRendezvous, new RendezvousMessage("getListRequest", null));
-        this.peerMap = (Map<String, InetAddress>) response.parameter;
+        GetListResponse response = (GetListResponse) sendMessageToServer(this.currentRendezvous, new GetListRequest());
+        this.peerMap = response.peerMap;
 
         return this.peerMap;
     }
@@ -96,7 +102,7 @@ public class Peer {
      *
      * @return The cached Peer Map. May be outdated.
      */
-    public Map<String, InetAddress> getCachedPeerMap() {
+    public Map<String, SocketAddress> getCachedPeerMap() {
         return this.peerMap;
     }
 

@@ -1,7 +1,11 @@
 package Discovery;
 
+import Discovery.RendezvousMessages.*;
+
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 
 public class RendezvousServerThread implements Runnable {
 
@@ -21,32 +25,35 @@ public class RendezvousServerThread implements Runnable {
             ObjectInputStream fromPeer = new ObjectInputStream(this.peerSocket.getInputStream());
 
             RendezvousMessage request = (RendezvousMessage) fromPeer.readObject();
-            switch (request.method) {
-                case "joinRequest":
-                    String peerName = (String) request.parameter;
+            switch (request.getMethod()) {
+                case "JoinRequest":
+                    JoinRequest joinRequest = (JoinRequest) request;
 
                     try {
-                        this.rendezvousServer.addPeer(peerName, peerSocket.getInetAddress());
+                        this.rendezvousServer.addPeer(joinRequest.peerName, new InetSocketAddress(peerSocket.getInetAddress(), joinRequest.peerPort));
                     } catch (IllegalArgumentException exception) {
                         System.out.println(exception.getMessage());
-                        toPeer.writeObject(new RendezvousMessage("joinRequestResponse", "Failure"));
+                        toPeer.writeObject(new JoinResponse(false));
                         return;
                     }
 
-                    toPeer.writeObject(new RendezvousMessage("joinRequestResponse", "Success"));
-                    System.out.println(peerName + " joined the Rendezvous.");
+                    toPeer.writeObject(new JoinResponse(true));
+                    System.out.println(joinRequest.peerName + " joined the Rendezvous.");
                     break;
-                case "leaveRequest":
-                    this.rendezvousServer.removePeer(peerSocket.getInetAddress());
-                    toPeer.writeObject(new RendezvousMessage("leaveRequestResponse", "Success"));
-                    System.out.println(this.rendezvousServer.getPeerName(peerSocket.getInetAddress()) + " left the Rendezvous.");
+                case "LeaveRequest":
+                    LeaveRequest leaveRequest = (LeaveRequest) request;
+                    SocketAddress peerAddress = new InetSocketAddress(peerSocket.getInetAddress(), leaveRequest.peerPort);
+
+                    this.rendezvousServer.removePeer(peerAddress);
+                    toPeer.writeObject(new LeaveResponse(true));
+                    System.out.println(this.rendezvousServer.getPeerNameFromAddress(peerAddress) + " left the Rendezvous.");
                     break;
-                case "getListRequest":
-                    toPeer.writeObject(new RendezvousMessage("getListResponse", this.rendezvousServer.getPeerMap()));
-                    System.out.println(this.rendezvousServer.getPeerName(peerSocket.getInetAddress()) + " got the Peer List.");
+                case "GetListRequest":
+                    toPeer.writeObject(new GetListResponse(this.rendezvousServer.getPeerMap()));
+                    System.out.println(peerSocket.getInetAddress() + " got the Peer List.");
                     break;
                 default:
-                    System.out.println("Unknown message type " + request.method);
+                    System.out.println("Unknown message type " + request.getMethod());
             }
         } catch (Exception e) {
             e.printStackTrace();
