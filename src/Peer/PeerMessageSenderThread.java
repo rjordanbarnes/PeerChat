@@ -47,6 +47,7 @@ public class PeerMessageSenderThread implements Runnable {
 
     public void endChat() {
         try {
+            messages.clear();
             messages.put(new PeerMessage(PeerMessage.MessageType.END, null));
         } catch (InterruptedException e) {
             e.printStackTrace();

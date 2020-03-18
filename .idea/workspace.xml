@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d1b2c19c-392a-4fc9-b477-62d19d20a48b" name="Default Changelist" comment="Working ChatConsoleApp">
-      <change afterPath="$PROJECT_DIR$/src/Applications/ChatConsoleApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Peer/PeerHandlerThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Peer/PeerListenerThread.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Peer/PeerMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Peer/PeerMessageSenderThread.java" afterDir="false" />
+    <list default="true" id="d1b2c19c-392a-4fc9-b477-62d19d20a48b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/chat.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rendezvous.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Applications/PeerConsoleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Applications/PeerConsoleApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Chat/Chat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Discovery/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Peer/Peer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Discovery/RendezvousMessages/GetListResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Discovery/RendezvousMessages/GetListResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Applications/ChatConsoleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Applications/ChatConsoleApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Applications/PeerConsoleApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Chat/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Chat/Chat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ConsoleApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Discovery/RendezvousMessages/JoinResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Discovery/RendezvousMessages/JoinResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Discovery/RendezvousMessages/LeaveResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Discovery/RendezvousMessages/LeaveResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Discovery/RendezvousServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Discovery/RendezvousServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Discovery/RendezvousServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Discovery/RendezvousServerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Peer/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Peer/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Peer/PeerHandlerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Peer/PeerHandlerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Peer/PeerListenerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Peer/PeerListenerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Peer/PeerMessageSenderThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Peer/PeerMessageSenderThread.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +127,8 @@
       <workItem from="1584385193628" duration="17682000" />
       <workItem from="1584471381765" duration="4882000" />
       <workItem from="1584476715595" duration="950000" />
-      <workItem from="1584477737767" duration="12364000" />
+      <workItem from="1584477737767" duration="13769000" />
+      <workItem from="1584557781145" duration="3585000" />
     </task>
     <task id="LOCAL-00001" summary="Moved messages to their own classes. Rendezvous now tracks IP+Port">
       <created>1584474554912</created>
@@ -133,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584474554912</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Working ChatConsoleApp">
+      <created>1584495074729</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1584495074729</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,42 +164,42 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="251" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584477708575" />
-    <state x="499" y="117" key="CommitChangelistDialog2" timestamp="1584495028828">
+    <state x="499" y="117" key="CommitChangelistDialog2" timestamp="1584495074044">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="499" y="117" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584495028828" />
-    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1584495028855">
+    <state x="499" y="117" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584495074044" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1584515431489">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584495028855" />
-    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1584495028855">
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584515431489" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1584515431489">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584495028855" />
-    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1584495028855">
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584515431489" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1584515431488">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584495028855" />
-    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1584495028855">
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584515431488" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1584515431489">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584495028855" />
-    <state width="1877" height="347" key="GridCell.Tab.1.bottom" timestamp="1584494057141">
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584515431489" />
+    <state width="1877" height="347" key="GridCell.Tab.1.bottom" timestamp="1584515431471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="347" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584494057141" />
-    <state width="1877" height="347" key="GridCell.Tab.1.center" timestamp="1584494057140">
+    <state width="1877" height="347" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584515431471" />
+    <state width="1877" height="347" key="GridCell.Tab.1.center" timestamp="1584515431471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="347" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584494057140" />
-    <state width="1877" height="347" key="GridCell.Tab.1.left" timestamp="1584494057140">
+    <state width="1877" height="347" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584515431471" />
+    <state width="1877" height="347" key="GridCell.Tab.1.left" timestamp="1584515431471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="347" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584494057140" />
-    <state width="1877" height="347" key="GridCell.Tab.1.right" timestamp="1584494057140">
+    <state width="1877" height="347" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584515431471" />
+    <state width="1877" height="347" key="GridCell.Tab.1.right" timestamp="1584515431471">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="347" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584494057140" />
+    <state width="1877" height="347" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1584515431471" />
   </component>
   <component name="masterDetails">
     <states>

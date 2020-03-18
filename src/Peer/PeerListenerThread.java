@@ -9,18 +9,36 @@ import java.net.Socket;
  */
 public class PeerListenerThread implements Runnable{
     Peer peer;
+    int port;
     ServerSocket serverSocket;
     volatile boolean running;
 
+    /**
+     * Starts listening for peers on a random port.
+     *
+     * @param peer The peer to start listening.
+     */
     public PeerListenerThread(Peer peer) {
+        // Random port
+        this(peer, 0);
+    }
+
+    /**
+     * Starts listening for peers on a specific port.
+     *
+     * @param peer The peer to start listening.
+     * @param port The port to start listening on.
+     */
+    public PeerListenerThread(Peer peer, int port) {
         this.peer = peer;
+        this.port = port;
         this.running = false;
     }
 
     @Override
     public void run() {
         try {
-            this.serverSocket = new ServerSocket(0);
+            this.serverSocket = new ServerSocket(this.port);
             this.running = true;
 
             System.out.println("Peer Listener listening on " + this.serverSocket.getInetAddress().getHostAddress() + ":" + this.serverSocket.getLocalPort());

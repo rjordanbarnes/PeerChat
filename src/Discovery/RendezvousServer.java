@@ -57,9 +57,20 @@ public class RendezvousServer {
      * @param peerAddress The address of the peer to add.
      */
     public synchronized void addPeer(String peerName, InetSocketAddress peerAddress) {
+        if (peerName == null || peerName.equals("")) {
+            throw new IllegalArgumentException("Peer name must not be blank.");
+        }
+
+        if (peerAddress == null) {
+            throw new IllegalArgumentException("Peer address must not be blank.");
+        }
+
         if (this.peerMap.containsKey(peerName)) {
-            // Peer name is already taken.
-            throw new IllegalArgumentException("Peer name " + peerName + " already in-use.");
+            if (!this.peerMap.get(peerName).equals(peerAddress)) {
+                // Peer name is already taken.
+                throw new IllegalArgumentException("Peer name " + peerName + " is already in-use.");
+            }
+            // This is just a duplicate request, do nothing special.
         }
 
         if (this.connectionMap.containsKey(peerAddress)) {
@@ -80,6 +91,10 @@ public class RendezvousServer {
      * @param peerAddress The address of the peer to remove.
      */
     public synchronized void removePeer(InetSocketAddress peerAddress) {
+        if (peerAddress == null) {
+            throw new IllegalArgumentException("Peer address must not be blank.");
+        }
+
         String peerName = this.connectionMap.get(peerAddress);
         this.connectionMap.remove(peerAddress);
         this.peerMap.remove(peerName);

@@ -7,7 +7,15 @@ import java.net.InetAddress;
 import java.util.Set;
 
 public class Chat {
-    private Peer peer = new Peer();
+    private Peer peer;
+
+    public Chat() {
+        peer = new Peer();
+    }
+
+    public Chat(int peerPort) {
+        peer = new Peer(peerPort);
+    }
 
     /**
      * Joins the Rendezvous Server that this Chat app uses to discover peers.
@@ -37,6 +45,15 @@ public class Chat {
      */
     public Set<String> getKnownPeers() throws IOException {
         return this.peer.refreshAndGetPeerMap().keySet();
+    }
+
+    /**
+     * Gets the list of connected peer names.
+     *
+     * @return A Set of peer names.
+     */
+    public Set<String> getConnectedPeers() {
+        return this.peer.getConnectedPeers().keySet();
     }
 
     /**

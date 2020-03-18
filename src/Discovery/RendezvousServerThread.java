@@ -30,9 +30,9 @@ public class RendezvousServerThread implements Runnable {
 
                     try {
                         this.rendezvousServer.addPeer(joinRequest.peerName, new InetSocketAddress(peerSocket.getInetAddress(), joinRequest.peerPort));
-                    } catch (IllegalArgumentException exception) {
-                        System.out.println(exception.getMessage());
-                        toPeer.writeObject(new JoinResponse(false));
+                    } catch (IllegalArgumentException ex) {
+                        System.out.println(ex.getMessage());
+                        toPeer.writeObject(new JoinResponse(false, ex.getMessage()));
                         return;
                     }
 
@@ -43,7 +43,14 @@ public class RendezvousServerThread implements Runnable {
                     LeaveRequest leaveRequest = (LeaveRequest) request;
                     InetSocketAddress peerAddress = new InetSocketAddress(peerSocket.getInetAddress(), leaveRequest.peerPort);
 
-                    this.rendezvousServer.removePeer(peerAddress);
+                    try {
+                        this.rendezvousServer.removePeer(peerAddress);
+                    } catch (IllegalArgumentException ex) {
+                        System.out.println(ex.getMessage());
+                        toPeer.writeObject(new LeaveResponse(false, ex.getMessage()));
+                        return;
+                    }
+
                     toPeer.writeObject(new LeaveResponse(true));
                     System.out.println(this.rendezvousServer.getPeerNameFromAddress(peerAddress) + " left the Rendezvous.");
                     break;

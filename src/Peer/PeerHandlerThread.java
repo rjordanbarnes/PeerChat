@@ -1,6 +1,5 @@
 package Peer;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -34,12 +33,10 @@ public class PeerHandlerThread implements Runnable {
                 PeerMessage receivedMessage = (PeerMessage) fromPeer.readObject();
                 System.out.println(receivedMessage.messagePayload);
             }
-        } catch (EOFException ex) {
+        } catch (Exception ex) {
             // Socket closed, tell other Thread to stop
             this.peerMessageSender.endChat();
             this.peer.removeConnection(this);
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 

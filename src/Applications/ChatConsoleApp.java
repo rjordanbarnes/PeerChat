@@ -14,19 +14,25 @@ public class ChatConsoleApp {
         InetAddress rendezvousServerAddress = InetAddress.getByName("localhost");
         int rendezvousServerPort = RendezvousServer.DEFAULT_PORT;
         String peerName = "Jordan";
+        int peerPort = 0;
 
         if (args.length > 0) {
             rendezvousServerAddress = InetAddress.getByName(args[0]);
             rendezvousServerPort = Integer.parseInt(args[1]);
             peerName = args[2];
+
+            if (args.length > 3) {
+                // Optional peer port to use for listening.
+                peerPort = Integer.parseInt(args[3]);
+            }
         }
 
         // Create the chat and join the rendezvous.
-        Chat chat = new Chat();
+        Chat chat = new Chat(peerPort);
         try {
             chat.joinRendezvous(rendezvousServerAddress, rendezvousServerPort, peerName);
         } catch (Exception ex) {
-            System.out.println("Unable to connect to Rendezvous server " + rendezvousServerAddress + ":" + rendezvousServerPort);
+            System.out.println(ex.getMessage());
             System.exit(0);
         }
 
@@ -37,7 +43,8 @@ public class ChatConsoleApp {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input;
 
-        System.out.println(knownPeers);
+        System.out.println("\nKnown Peers: " + knownPeers);
+        System.out.println("Connected Peers: " + chat.getConnectedPeers());
         System.out.print("Enter a command (get, connect, disconnect, send): ");
 
         while((input = reader.readLine()) != null) {
@@ -49,9 +56,19 @@ public class ChatConsoleApp {
                         knownPeers = chat.getKnownPeers();
                         break;
                     case "connect":
+                        if (split.length < 2) {
+                            System.out.println("Usage: connect PEERNAME");
+                            break;
+                        }
+
                         chat.connectToPeer(split[1]);
                         break;
                     case "disconnect":
+                        if (split.length < 2) {
+                            System.out.println("Usage: disconnect PEERNAME");
+                            break;
+                        }
+
                         chat.disconnectFromPeer(split[1]);
                         break;
                     case "send":
@@ -66,6 +83,7 @@ public class ChatConsoleApp {
             }
 
             System.out.println("\nKnown Peers: " + knownPeers);
+            System.out.println("Connected Peers: " + chat.getConnectedPeers());
             System.out.print("Enter a command (get, connect, disconnect, send): ");
         }
     }

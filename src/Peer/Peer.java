@@ -35,6 +35,13 @@ public class Peer {
         thread.start();
     }
 
+    public Peer(int listeningPort) {
+        // Peer starts listening for other peers on a random port.
+        this.peerListenerThread = new PeerListenerThread(this, listeningPort);
+        Thread thread = new Thread(this.peerListenerThread);
+        thread.start();
+    }
+
     /**
      * Makes the Peer join the given Rendezvous Server for Peer discovery at the default port.
      *
@@ -58,7 +65,7 @@ public class Peer {
         JoinResponse response = (JoinResponse) sendMessageToRendezvous(newRendezvousServer, new JoinRequest(peerName, this.getListeningPort()));
 
         if (!response.isSuccessful) {
-            throw new IOException("Rendezvous Join unsuccessful.");
+            throw new IOException("Rendezvous Join unsuccessful. " + response.reason);
         }
 
         // Update state after message is successful.
@@ -79,7 +86,7 @@ public class Peer {
         LeaveResponse response = (LeaveResponse) sendMessageToRendezvous(this.currentRendezvous, new LeaveRequest(this.getListeningPort()));
 
         if (!response.isSuccessful) {
-            throw new IOException("Rendezvous Leave unsuccessful.");
+            throw new IOException("Rendezvous Leave unsuccessful. " + response.reason);
         }
 
         this.currentRendezvous = null;
@@ -90,7 +97,7 @@ public class Peer {
     /**
      * Refreshes and returns the current Peer Map.
      *
-     * @return The current map of peers.
+     * @return The current map of known peers.
      */
     public Map<String, InetSocketAddress> refreshAndGetPeerMap() throws IOException {
         if (this.currentRendezvous == null) {
@@ -102,6 +109,15 @@ public class Peer {
         this.peerMap = response.peerMap;
 
         return this.peerMap;
+    }
+
+    /**
+     * Returns the currently connected Peers.
+     *
+     * @return The current map of connected peers.
+     */
+    public Map<String, PeerHandlerThread> getConnectedPeers() {
+        return this.connectedPeers;
     }
 
     /**
@@ -125,6 +141,10 @@ public class Peer {
 
         if (this.connectedPeers.containsKey(peerName)) {
             throw new IllegalArgumentException("Peer is already connected.");
+        }
+
+        if (this.peerName.equals(peerName)) {
+            throw new IllegalArgumentException("You can't connect to yourself.");
         }
 
         InetSocketAddress peerAddress = this.peerMap.get(peerName);
@@ -170,6 +190,7 @@ public class Peer {
             throw new IllegalArgumentException("Peer is already connected.");
         }
 
+        System.out.println("Added " + peerName + " to connected Peers.");
         this.connectedPeers.put(peerName, peerHandlerThread);
     }
 
@@ -198,8 +219,6 @@ public class Peer {
                 return;
             }
         }
-
-        throw new IllegalArgumentException("Peer Handler Thread not associated with connected Peer Name.");
     }
 
     /**
