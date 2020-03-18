@@ -1,13 +1,13 @@
 package Discovery.RendezvousMessages;
 
 import java.io.Serializable;
-import java.net.SocketAddress;
+import java.net.InetSocketAddress;
 import java.util.Map;
 
 public class GetListResponse implements RendezvousMessage, Serializable {
-    public Map<String, SocketAddress> peerMap;
+    public Map<String, InetSocketAddress> peerMap;
 
-    public GetListResponse(Map<String, SocketAddress> peerMap) {
+    public GetListResponse(Map<String, InetSocketAddress> peerMap) {
         this.peerMap = peerMap;
     }
 

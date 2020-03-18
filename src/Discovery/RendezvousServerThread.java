@@ -5,7 +5,6 @@ import Discovery.RendezvousMessages.*;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketAddress;
 
 public class RendezvousServerThread implements Runnable {
 
@@ -42,7 +41,7 @@ public class RendezvousServerThread implements Runnable {
                     break;
                 case "LeaveRequest":
                     LeaveRequest leaveRequest = (LeaveRequest) request;
-                    SocketAddress peerAddress = new InetSocketAddress(peerSocket.getInetAddress(), leaveRequest.peerPort);
+                    InetSocketAddress peerAddress = new InetSocketAddress(peerSocket.getInetAddress(), leaveRequest.peerPort);
 
                     this.rendezvousServer.removePeer(peerAddress);
                     toPeer.writeObject(new LeaveResponse(true));
