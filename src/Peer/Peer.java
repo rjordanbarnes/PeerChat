@@ -102,7 +102,7 @@ public class Peer {
     public Map<String, InetSocketAddress> refreshAndGetPeerMap() throws IOException {
         if (this.currentRendezvous == null) {
             // Not connected to a server
-            throw new IllegalStateException("Must join a Rendezvous Server first.");
+            throw new IllegalStateException("Must join a Server first.");
         }
 
         GetListResponse response = (GetListResponse) sendMessageToRendezvous(this.currentRendezvous, new GetListRequest());
@@ -233,6 +233,15 @@ public class Peer {
         }
 
         this.connectedPeers.get(peerName).sendMessage(message);
+    }
+
+    /**
+     * Returns this peer's name.
+     *
+     * @return This peer's name.
+     */
+    public String getPeerName() {
+        return this.peerName;
     }
 
     /*

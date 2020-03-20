@@ -83,4 +83,13 @@ public class Chat {
     public void sendMessage(String peerName, String message) {
         this.peer.sendMessageToPeer(peerName, message);
     }
+
+    /**
+     * Returns the name this peer is using.
+     *
+     * @return The peer's current name.
+     */
+    public String getPeerName() {
+        return this.peer.getPeerName();
+    }
 }

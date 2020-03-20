@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Applications.ChatGUIController">
    <left>
-      <BorderPane prefHeight="375.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="375.0" prefWidth="424.0" BorderPane.alignment="CENTER">
          <bottom>
-            <TextArea prefHeight="32.0" prefWidth="380.0" promptText="Chat here" wrapText="true" BorderPane.alignment="CENTER" />
+            <TextArea fx:id="chatBox" onKeyReleased="#handleChatBoxSubmit" prefHeight="32.0" prefWidth="380.0" promptText="Type message" wrapText="true" BorderPane.alignment="CENTER" />
          </bottom>
          <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="connectedPeerTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
                 <Tab text="Jordan">
                   <content>
@@ -33,6 +34,9 @@
                                              </font>
                                           </Label>
                                        </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                       </padding>
                                     </VBox>
                                  </content>
                               </ScrollPane>
@@ -193,15 +197,15 @@
       </MenuBar>
    </top>
    <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <BorderPane minHeight="375.0" minWidth="150.0" prefHeight="375.0" prefWidth="126.0" BorderPane.alignment="CENTER">
          <center>
             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox fx:id="onlineUsers" prefHeight="200.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Jordan">
+                              <Label maxWidth="1.7976931348623157E308" text="Jordan">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -209,7 +213,15 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Label>
-                              <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" text="Timmy">
+                              <Label layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" text="Timmy">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="37.0" maxWidth="1.7976931348623157E308" text="TheLongestNameAllowed">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -218,6 +230,9 @@
                                  </cursor>
                               </Label>
                            </children>
+                           <padding>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </padding>
                         </VBox>
                      </children>
                   </AnchorPane>
@@ -232,7 +247,7 @@
             </Label>
          </top>
          <bottom>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Refresh" BorderPane.alignment="CENTER">
+            <Button fx:id="refreshButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRefreshButton" text="Refresh" BorderPane.alignment="CENTER">
                <font>
                   <Font size="16.0" />
                </font>
