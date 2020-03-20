@@ -11,7 +11,7 @@ import java.util.Map;
  * Server that tracks peers so that peers can find each other.
  */
 public class RendezvousServer {
-    public static int DEFAULT_PORT = 1234;
+    public static int DEFAULT_PORT = 19816;
 
     // Port the server listens on.
     private int port;
