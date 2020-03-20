@@ -2,6 +2,7 @@ package Applications;
 
 import Chat.Chat;
 import Discovery.RendezvousServer;
+import Peer.IMessageReceivedCallback;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class ChatConsoleApp {
 
         // Create the chat and join the rendezvous.
         Chat chat = new Chat(peerPort);
+        chat.onMessageReceived((fromPeerName, messageReceived) -> System.out.println("\n" + fromPeerName + ": " + messageReceived));
         try {
             chat.joinRendezvous(rendezvousServerAddress, rendezvousServerPort, peerName);
         } catch (Exception ex) {
@@ -72,7 +74,12 @@ public class ChatConsoleApp {
                         chat.disconnectFromPeer(split[1]);
                         break;
                     case "send":
-                        chat.sendMessage(split[1], split[2]);
+                        if (split.length < 3) {
+                            System.out.println("Usage: send PEERNAME MESSAGE");
+                            break;
+                        }
+                        String message = input.substring(split[0].length() + 1 + split[1].length() + 1);
+                        chat.sendMessage(split[1], message);
                         break;
                     default:
                         System.out.println("Unknown command " + split[0]);

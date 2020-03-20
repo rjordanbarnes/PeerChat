@@ -2,7 +2,11 @@ package Applications;
 
 import Chat.Chat;
 import Discovery.RendezvousServer;
+import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -22,6 +26,9 @@ public class ChatGUIController {
 
     public ChatGUIController() {
         chat = new Chat();
+        chat.onMessageReceived((fromPeerName, messageReceived) -> Platform.runLater(() -> addMessageToPeerTab(fromPeerName, fromPeerName, messageReceived)));
+        chat.onPeerConnected(peerName -> Platform.runLater(() -> createNewTab(peerName)));
+        chat.onPeerDisconnected(peerName -> Platform.runLater(() -> closeTab(peerName)));
         displayJoinServerPrompt();
     }
 
@@ -33,14 +40,15 @@ public class ChatGUIController {
 
     @FXML TabPane connectedPeerTabs;
 
-    private Map<String, ScrollPane> peerChatBox = new HashMap<>();
+    private Map<String, VBox> peerChatBox = new HashMap<>();
 
     @FXML
     protected void handleChatBoxSubmit(KeyEvent keyEvent) {
-        if (keyEvent.getCode().equals(KeyCode.ENTER) && chatBox.getText().trim().length() > 0) {
-            // Send the message to the peer.
+        if (keyEvent.getCode().equals(KeyCode.ENTER) && chatBox.getText().trim().length() > 0 && connectedPeerTabs.getTabs().size() > 0) {
+            // Must press Enter, have some text in the box, and a tab needs to be present.
             String peerToSendTo = connectedPeerTabs.getSelectionModel().getSelectedItem().getText();
             String message = chatBox.getText();
+            // Send the message to the peer.
             chat.sendMessage(peerToSendTo, message);
 
             // Add the message to our vbox.
@@ -65,32 +73,7 @@ public class ChatGUIController {
                 peerNameLabel.setOnMouseClicked(event -> {
                     try {
                         chat.connectToPeer(peerName);
-
-                        // Create the new Tab
-                        Tab chatTab = new Tab(peerName);
-                        AnchorPane chatTabAnchor = new AnchorPane();
-                        ScrollPane chatTabScroll = new ScrollPane();
-                        VBox chatTextContainer = new VBox();
-                        chatTabScroll.setContent(chatTextContainer);
-                        chatTabAnchor.getChildren().add(chatTabScroll);
-                        chatTab.setContent(chatTabAnchor);
-                        connectedPeerTabs.getTabs().add(chatTab);
-
-                        // Style
-                        AnchorPane.setBottomAnchor(chatTabScroll, 0.0);
-                        AnchorPane.setLeftAnchor(chatTabScroll, 0.0);
-                        AnchorPane.setRightAnchor(chatTabScroll, 0.0);
-                        AnchorPane.setTopAnchor(chatTabScroll, 0.0);
-                        chatTabScroll.setFitToHeight(true);
-                        chatTabScroll.setFitToWidth(true);
-                        chatTabScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                        chatTabScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-
-                        // Automatically scroll when new messages are added.
-                        chatTextContainer.heightProperty().addListener(observable -> chatTabScroll.setVvalue(1D));
-
-                        // Save the ScrollPane for later to put new messages in.
-                        peerChatBox.put(peerName, chatTabScroll);
+                        this.createNewTab(peerName);
                     } catch (Exception e) {
                         alertUserError(e.getMessage());
                     }
@@ -110,6 +93,7 @@ public class ChatGUIController {
     @FXML
     protected void displayJoinServerPrompt(String message) {
         Dialog<List<String>> dialog = new Dialog<>();
+        dialog.setResizable(true);
         dialog.setTitle("Server Info");
         dialog.setHeaderText("Enter server info and your desired username to obtain Peer list.");
 
@@ -117,9 +101,6 @@ public class ChatGUIController {
             // Some other message was provided, display it too.
             dialog.setHeaderText(dialog.getHeaderText() + "\n" + message);
         }
-
-        dialog.setContentText("BAD BOY");
-        dialog.setResizable(true);
 
         Label addressLabel = new Label("Address: ");
         Label portLabel = new Label("Port: ");
@@ -166,17 +147,71 @@ public class ChatGUIController {
         }
     }
 
+    @FXML
+    protected void displayAboutWindow() {
+        Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION, "Created by Jordan Barnes for UW CSE 461.", ButtonType.OK);
+        aboutAlert.setTitle("About");
+        aboutAlert.setHeaderText("Peer Chat");
+        aboutAlert.show();
+    }
+
+    @FXML
+    protected void closeApplication() {
+        Platform.exit();
+        System.exit(0);
+    }
+
     protected void addMessageToPeerTab(String peerTabName, String sendingPeer, String message) {
         Label messageLabel = new Label(sendingPeer + ": " + message);
         messageLabel.setWrapText(true);
         messageLabel.setFont(new Font(20));
-        ScrollPane chatTabScroll = peerChatBox.get(peerTabName);
-        VBox chatTextContainer = (VBox) chatTabScroll.getContent();
+        VBox chatTextContainer = peerChatBox.get(peerTabName);
+        chatTextContainer.setPadding(new Insets(5D, 10D, 5D, 10D));
+        messageLabel.maxWidth(chatTextContainer.getWidth());
         chatTextContainer.getChildren().add(messageLabel);
     }
 
     protected void alertUserError(String errorMessage) {
         Alert alert = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.OK);
         alert.show();
+    }
+
+    private void createNewTab(String peerName) {
+        Tab chatTab = new Tab(peerName);
+        AnchorPane chatTabAnchor = new AnchorPane();
+        ScrollPane chatTabScroll = new ScrollPane();
+        VBox chatTextContainer = new VBox();
+        chatTabScroll.setContent(chatTextContainer);
+        chatTabAnchor.getChildren().add(chatTabScroll);
+        chatTab.setContent(chatTabAnchor);
+        connectedPeerTabs.getTabs().add(chatTab);
+
+        // Style
+        AnchorPane.setBottomAnchor(chatTabScroll, 0.0);
+        AnchorPane.setLeftAnchor(chatTabScroll, 0.0);
+        AnchorPane.setRightAnchor(chatTabScroll, 0.0);
+        AnchorPane.setTopAnchor(chatTabScroll, 0.0);
+        chatTabScroll.setFitToHeight(true);
+        chatTabScroll.setFitToWidth(true);
+        chatTabScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        chatTabScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+
+        // Automatically scroll when new messages are added.
+        chatTextContainer.heightProperty().addListener(observable -> chatTabScroll.setVvalue(1D));
+
+        // Allow tab to be closed, which will disconnect from the peer.
+        chatTab.setClosable(true);
+        chatTab.setOnClosed(event -> chat.disconnectFromPeer(peerName));
+
+        // Save the VBox for later to put new messages in.
+        peerChatBox.put(peerName, chatTextContainer);
+    }
+
+    private void closeTab(String peerName) {
+        // Remove the tab
+        connectedPeerTabs.getTabs().removeIf(tab -> tab.getText().equals(peerName));
+
+        // Remove reference to saved VBox
+        peerChatBox.remove(peerName);
     }
 }

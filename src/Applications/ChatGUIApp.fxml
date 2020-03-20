@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -13,165 +12,7 @@
             <TextArea fx:id="chatBox" onKeyReleased="#handleChatBoxSubmit" prefHeight="32.0" prefWidth="380.0" promptText="Type message" wrapText="true" BorderPane.alignment="CENTER" />
          </bottom>
          <center>
-            <TabPane fx:id="connectedPeerTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab text="Jordan">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" vvalue="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
-                                       <children>
-                                          <Label text="Jordan: Hey dude how r u doing? You get the job?" wrapText="true">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Me: Good, ya :)" wrapText="true">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                       </padding>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                    <Tab text="Timmy">
-                      <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                              <children>
-                                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" vvalue="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                      <content>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                              <children>
-                                                  <Label text="Timmy: Hey dude how r u doing? You get the job?" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label><Label text="Me: Good, ya :)" wrapText="true">
-                                                  <font>
-                                                      <Font size="20.0" />
-                                                  </font>
-                                              </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Good, ya :)" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-                                                  <Label text="Me: Last message!!!" wrapText="true">
-                                                      <font>
-                                                          <Font size="20.0" />
-                                                      </font>
-                                                  </Label>
-
-                                              </children>
-                                          </VBox>
-                                      </content>
-                                  </ScrollPane>
-                              </children>
-                          </AnchorPane>
-                      </content>
-                  </Tab>
-              </tabs>
-            </TabPane>
+            <TabPane fx:id="connectedPeerTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </left>
@@ -180,17 +21,13 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#displayJoinServerPrompt" text="Join Server" />
+                  <MenuItem mnemonicParsing="false" onAction="#closeApplication" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#displayAboutWindow" text="About" />
             </items>
           </Menu>
         </menus>
@@ -204,32 +41,6 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <VBox fx:id="onlineUsers" prefHeight="200.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label maxWidth="1.7976931348623157E308" text="Jordan">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Label>
-                              <Label layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" text="Timmy">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Label>
-                              <Label layoutX="10.0" layoutY="37.0" maxWidth="1.7976931348623157E308" text="TheLongestNameAllowed">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Label>
-                           </children>
                            <padding>
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </padding>

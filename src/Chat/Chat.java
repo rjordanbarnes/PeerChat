@@ -1,6 +1,9 @@
 package Chat;
 
 import Peer.Peer;
+import Peer.IMessageReceivedCallback;
+import Peer.IPeerConnectedCallback;
+import Peer.IPeerDisconnectedCallback;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -91,5 +94,26 @@ public class Chat {
      */
     public String getPeerName() {
         return this.peer.getPeerName();
+    }
+
+    /**
+     * Calls the supplied callback when a message is received.
+     */
+    public void onMessageReceived(IMessageReceivedCallback messageReceivedCallback) {
+        this.peer.onMessageReceived(messageReceivedCallback);
+    }
+
+    /**
+     * Calls the supplied callback when a peer connects.
+     */
+    public void onPeerConnected(IPeerConnectedCallback peerConnectedCallback) {
+        this.peer.onPeerConnected(peerConnectedCallback);
+    }
+
+    /**
+     * Calls the supplied callback when a peer connects.
+     */
+    public void onPeerDisconnected(IPeerDisconnectedCallback peerDisconnectedCallback) {
+        this.peer.onPeerDisconnected(peerDisconnectedCallback);
     }
 }

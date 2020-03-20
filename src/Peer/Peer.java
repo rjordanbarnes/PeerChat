@@ -28,6 +28,11 @@ public class Peer {
     // The cached version of the peerMap from the Rendezvous Server
     private Map<String, InetSocketAddress> peerMap;
 
+    // Callbacks
+    IMessageReceivedCallback messageReceivedCallback;
+    private IPeerConnectedCallback peerConnectedCallback;
+    private IPeerDisconnectedCallback peerDisconnectedCallback;
+
     public Peer() {
         // Peer starts listening for other peers on a random port.
         this.peerListenerThread = new PeerListenerThread(this);
@@ -177,6 +182,7 @@ public class Peer {
         PeerHandlerThread peerHandlerThread = this.connectedPeers.get(peerName);
         peerHandlerThread.closeConnection();
         this.removeConnection(peerName);
+        System.out.println("Disconnected from " + peerName);
     }
 
     /**
@@ -205,6 +211,7 @@ public class Peer {
         }
 
         this.connectedPeers.remove(peerName);
+        System.out.println("Removed connection to " + peerName);
     }
 
     /**
@@ -242,6 +249,82 @@ public class Peer {
      */
     public String getPeerName() {
         return this.peerName;
+    }
+
+    /**
+     * Registers the given callback to fire when a message is received.
+     *
+     * @param messageReceivedCallback The callback to call.
+     */
+    public void onMessageReceived(IMessageReceivedCallback messageReceivedCallback) {
+        this.messageReceivedCallback = messageReceivedCallback;
+    }
+
+    /**
+     * Registers the given callback to fire when a peer connects.
+     *
+     * @param peerConnectedCallback The callback to call.
+     */
+    public void onPeerConnected(IPeerConnectedCallback peerConnectedCallback) {
+        this.peerConnectedCallback = peerConnectedCallback;
+    }
+
+    /**
+     * Registers the given callback to fire when a peer disconnects.
+     *
+     * @param peerDisconnectedCallback The callback to call.
+     */
+    public void onPeerDisconnected(IPeerDisconnectedCallback peerDisconnectedCallback) {
+        this.peerDisconnectedCallback = peerDisconnectedCallback;
+    }
+
+    /**
+     * Triggers the registered onMessageReceived callback
+     *
+     * @param messagePayload The message that was received.
+     */
+    public void messageReceived(String fromPeerName, String messagePayload) {
+        if (this.messageReceivedCallback == null) {
+            return;
+        }
+
+        this.messageReceivedCallback.callback(fromPeerName, messagePayload);
+    }
+
+    /**
+     * Triggers the registered onPeerConnected callback
+     *
+     * @param peerName The peer that connected.
+     */
+    public void peerConnected(String peerName) {
+        if (this.peerConnectedCallback == null) {
+            return;
+        }
+
+        this.peerConnectedCallback.callback(peerName);
+    }
+
+    /**
+     * Triggers the registered onPeerDisconnected callback
+     *
+     * @param peerName The peer that disconnected.
+     */
+    public void peerDisconnected(String peerName) {
+        if (this.peerDisconnectedCallback == null) {
+            return;
+        }
+
+        this.peerDisconnectedCallback.callback(peerName);
+    }
+
+    public String getPeerNameFromThread(PeerHandlerThread peerHandlerThread) {
+        for (String peerName : this.connectedPeers.keySet()) {
+            if (this.connectedPeers.get(peerName).equals(peerHandlerThread)) {
+                return peerName;
+            }
+        }
+
+        return null;
     }
 
     /*

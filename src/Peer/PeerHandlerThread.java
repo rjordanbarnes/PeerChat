@@ -31,11 +31,15 @@ public class PeerHandlerThread implements Runnable {
 
             while(true) {
                 PeerMessage receivedMessage = (PeerMessage) fromPeer.readObject();
-                System.out.println(receivedMessage.messagePayload);
+                String fromPeerName = this.peer.getPeerNameFromThread(this);
+
+                this.peer.messageReceived(fromPeerName, receivedMessage.messagePayload);
             }
         } catch (Exception ex) {
             // Socket closed, tell other Thread to stop
             this.peerMessageSender.endChat();
+            String otherPeerName = this.peer.getPeerNameFromThread(this);
+            this.peer.peerDisconnected(otherPeerName);
             this.peer.removeConnection(this);
         }
     }

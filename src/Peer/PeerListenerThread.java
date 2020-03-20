@@ -60,6 +60,8 @@ public class PeerListenerThread implements Runnable{
                 String peerName = peerNameMessage.messagePayload;
                 System.out.println("\n" + peerName + " connected.");
 
+                this.peer.peerConnected(peerName);
+
                 // Start up a thread to continue communication with peer. This new thread will eventually close the socket.
                 PeerHandlerThread peerHandlerThread = new PeerHandlerThread(this.peer, peerSocket);
                 Thread thread = new Thread(peerHandlerThread);
