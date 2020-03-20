@@ -33,15 +33,19 @@ public class Peer {
     private IPeerConnectedCallback peerConnectedCallback;
     private IPeerDisconnectedCallback peerDisconnectedCallback;
 
+    /**
+     * Create a Peer and start listening for other peers on a random port.
+     */
     public Peer() {
-        // Peer starts listening for other peers on a random port.
         this.peerListenerThread = new PeerListenerThread(this);
         Thread thread = new Thread(this.peerListenerThread);
         thread.start();
     }
 
+    /**
+     * Create a Peer and start listening for other peers on a specific port.
+     */
     public Peer(int listeningPort) {
-        // Peer starts listening for other peers on a random port.
         this.peerListenerThread = new PeerListenerThread(this, listeningPort);
         Thread thread = new Thread(this.peerListenerThread);
         thread.start();

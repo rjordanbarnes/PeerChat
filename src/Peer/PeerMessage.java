@@ -12,7 +12,7 @@ public class PeerMessage implements Serializable {
     }
 
     public enum MessageType {
-        CHAT, // A Chat.Chat message
+        CHAT, // A Chat message
         END,  // Ending the connection
         NAME  // The peer's name
     }
