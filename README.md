@@ -24,3 +24,6 @@ IP address (as seen by the server) and the port the peer is listening on for oth
 The list of peers that the Rendezvous server knows about can be obtained, allowing them
 to initiate a TCP connection with the peer they want to chat with. The actual chatting occurs
 over this peer-to-peer connection, the server is only required for peer discovery.
+
+## Video Showcase
+https://www.youtube.com/watch?v=OAQoWMd9Wyw
